@@ -193,11 +193,10 @@ def main():
     for name, registry in find_registries().items():
         try:
             registry.initialize(framework)
+            for plugin in find_plugins(name, registry):
+                plugins.append(plugin)
         except Exception as e:
             print("Unable to initialize %s: %s" % (name, e))
-            sys.exit(1)
-        for plugin in find_plugins(name, registry):
-            plugins.append(plugin)
 
     for out in output_registry.plugins:
         if out.__name__.lower() == options.output:
